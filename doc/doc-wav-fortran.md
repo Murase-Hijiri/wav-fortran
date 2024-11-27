@@ -1,4 +1,3 @@
-# Subroutines
 ## `lpcm_wav_read`
 ```Fortran
 subroutine lpcm_wav_read(filename, wave_data, fs, bitq_out)
@@ -10,7 +9,7 @@ subroutine lpcm_wav_read(filename, wave_data, fs, bitq_out)
 end subroutine lpcm_wav_read
 ```
 #### `filename`
-Name of file to read.
+Name of a file to read.
 #### `wave_data`
 Data of the audio.
 Length of `wave_data` is number of sample points.
@@ -27,10 +26,11 @@ subroutine lpcm_wav_write(filename, wave_data, fs, bitq)
   real(real64), intent(in) :: wave_data(:)
   integer(int32), intent(in) :: fs
   integer(int16), intent(in) :: bitq
+  ...
 end subroutine lpcm_wav_write
 ```
 #### `filename`
-Name of file to write.
+Name of a file to write.
 #### `wave_data`
 Data of the audio.
 Length of `wave_data` is number of sample points.
