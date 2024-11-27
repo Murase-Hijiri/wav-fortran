@@ -16,7 +16,7 @@ contains
     call mvbits(int(bin3byte(1)), 0, 8, retval, 0)
     call mvbits(int(bin3byte(2)), 0, 8, retval, 8)
     call mvbits(int(bin3byte(3)), 0, 16, retval, 16)
-  end function
+  end function bin3byte_to_int32
 
   subroutine int32_to_bin3byte(var_int, bin3byte)
     integer(int32), intent(in) :: var_int
@@ -27,7 +27,16 @@ contains
     bin3byte(1) = iand(var_int, Z'FF')
     bin3byte(2) = iand(ishft(var_int, -8), Z'FF')
     bin3byte(3) = iand(ishft(var_int, -16), Z'FF')
-  end subroutine
+  end subroutine int32_to_bin3byte
+
+  function wave_clip(val) result(retval)
+    real(real64), intent(in) :: val
+    real(real64) :: retval
+
+    retval = val
+    if (val > 1.0d0) retval = 1.0d0
+    if (val < -1.0d0) retval = -1.0d0
+  end function wave_clip
 
   subroutine lpcm_wav_read(filename, wave_data, fs, bitq_out)
     character(len=*), intent(in) :: filename
@@ -164,22 +173,22 @@ contains
     select case (bitq)
       case (8)
         do i = 1, LENGTH
-          var8 = int((wave_data(i) + 1.0d0) * NUM_MAX)
+          var8 = int(wave_clip((wave_data(i) + 1.0d0)) * NUM_MAX)
           write(unit_num) var8
         end do
       case (16)
         do i = 1, LENGTH
-          var16 = int(wave_data(i) * NUM_MAX)
+          var16 = int(wave_clip(wave_data(i)) * NUM_MAX)
           write(unit_num) var16
         end do
       case (24)
         do i = 1, LENGTH
-          call int32_to_bin3byte(int(wave_data(i) * NUM_MAX), var8_3byte)
+          call int32_to_bin3byte(int(wave_clip(wave_data(i)) * NUM_MAX), var8_3byte)
           write(unit_num) var8_3byte
         end do
       case(32)
         do i = 1, LENGTH
-          write(unit_num) int(wave_data(i) * NUM_MAX)
+          write(unit_num) int(wave_clip(wave_data(i)) * NUM_MAX)
         end do
     end select
 
