@@ -28,7 +28,6 @@ program demo
   deallocate(demo_sine)
 
   ! read the wav file (16bit) and save into a wav file (8bit)
-
   call lpcm_wav_read("./example/demo_sine_16bit.wav", demo_sine, sampling_rate)
   bitq = 8
   call lpcm_wav_write("./example/demo_sine_8bit.wav", demo_sine, sampling_rate, bitq)
