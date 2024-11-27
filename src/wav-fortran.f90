@@ -173,7 +173,7 @@ contains
     select case (bitq)
       case (8)
         do i = 1, LENGTH
-          var8 = int(wave_clip((wave_data(i) + 1.0d0)) * NUM_MAX)
+          var8 = int((wave_clip(wave_data(i)) + 1.0d0) * NUM_MAX)
           write(unit_num) var8
         end do
       case (16)
